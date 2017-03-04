@@ -10,7 +10,7 @@ int main(int argc, char* argv[])
 	int opt = getopt(argc, argv, "md:t");
 
 	if(argv[1] = ""){
-		printf("Usage: %s\n",argv[0]);
+		printf("Usage: %sEXECUTABLE\n",argv[0]);
 
 	}
 
