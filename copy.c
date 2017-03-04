@@ -3,25 +3,27 @@
 #include "stdbool.h"
 #include "unistd.h"
 #include "HW_5_Part3.h"
+#include "myFileCopy.h"
 
 int main(int argc, char* argv[])
-{
-	bool opt_a =false, opt_b = false, opt_d =false;
+{  char* name = argv[1];
+	bool opt_m =false, opt_d = false, opt_t =false;
 	int opt = getopt(argc, argv, "md:t");
 
-	if(argv[1] = ""){
+	if(argv[1] == ""){
 		printf("Usage: %sEXECUTABLE\n",argv[0]);
 
 	}
+   copy(name);
 
-  /while (opt != -1)
+  while (opt != -1)
    {
-      if (opt == 'p') {
-         opt_p = true;
-      } else if (opt == 'e') {
-         opt_e = true;
-      } else if (opt == 'u') {
-         opt_u = true;
+      if (opt == 'm') {
+         opt_m = true;
+      } else if (opt == 'd') {
+         opt_d= true;
+      } else if (opt == 't') {
+         opt_t = true;
       }
       opt = getopt(argc, argv, "md:t");
    }

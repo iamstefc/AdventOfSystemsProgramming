@@ -1,17 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-int copy()
+int copy(char* name)
 {
 	//source: http://www.programmingsimplified.com/c-program-copy-file
-   char ch, source_file[20], target_file[20];
+   char ch, target_file[20]="";
 	char *gets(char *str);
+   
    FILE *source, *target;
  
-   printf("Enter name of file to copy\n");
-   gets(source_file);
+   
  
-   source = fopen(source_file, "r");
+   source = fopen(name, "r");
  
    if( source == NULL )
    {
@@ -19,15 +20,14 @@ int copy()
       exit(EXIT_FAILURE);
    }
  
-   printf("Enter name of target file\n");
-   gets(target_file);
  
-   target = fopen(target_file, "w");
+  \
+   target = fopen("temp", "w");
  
    if( target == NULL )
    {
       fclose(source);
-      printf("Press any key to exit...\n");
+      
       exit(EXIT_FAILURE);
    }
  
