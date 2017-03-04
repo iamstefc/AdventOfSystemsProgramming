@@ -1,6 +1,6 @@
 #include<stdio.h>
 
-	int  main(void)
+	int  main(int argc, char* argv[])
 	{
 		
     if ( argc != 2 ) /* argc should be 2 for correct execution */
@@ -44,5 +44,5 @@
 		if(copy_file(filename_src, filename_dest) == 0)
 			printf("Copy Successful\n");
 		else
-			fprintf(stderr, "Error during copy!");
+			printf(stderr, "Error during copy!");
 	}
