@@ -1,9 +1,12 @@
 #include<stdio.h>
-//Test
-	int  main(int argc, char* argv[])
-	{
-		
-    if ( argc != 2 ) /* argc should be 2 for correct execution */
+#include<stdlib.h>
+#include<unistd.h>
+#include<time.h>
+
+int main(int argc, char *argv[])
+{
+	// source: http://www.cprogramming.com/tutorial/c/lesson14.html
+	if ( argc != 2 ) /* argc should be 2 for correct execution */
     {
         /* We print argv[0] assuming it is the program name */
         printf( "usage: %s filename", argv[0] );
@@ -31,7 +34,33 @@
             }
             fclose( file );
         }
+	}
+	
+	// http://stackoverflow.com/q/36208198
+  int b=1;
+  char backup[100];
+  char *source=getenv("BackupSource");
+  char *destination=getenv("BackupDestination");
+  char *btime=getenv("BackupTime");
+
+  time_t getTime;
+  struct tm *actualTime;
+  time(&getTime);
+  actualTime=localtime(&getTime);
+  strftime(backup, 100, "%H:%M", actualTime);
+
+   while(b)
+    {
+       while(strcmp(backup,btime)!=0)
+         {
+           sleep(60);
+         }
+       system("cp -r $BackupSource $BackupDestination");
     }
+
+return 0;
+}
+
 		
 		char  filename_src[101], filename_dest[101];
 
