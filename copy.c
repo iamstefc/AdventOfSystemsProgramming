@@ -2,7 +2,7 @@
 #include "stdlib.h"
 #include "stdbool.h"
 #include "unistd.h"
-#include "HW_5_Part3.h"
+#include "printhelp.h"
 #include "myFileCopy.h"
 
 int main(int argc, char* argv[])
