@@ -2,8 +2,9 @@
 #include "stdlib.h"
 #include "stdbool.h"
 #include "unistd.h"
-#include "HW_5_Part3.h"
+#include "printhelp.h"
 #include "myFileCopy.h"
+#include "watch.h"
 
 int main(int argc, char* argv[])
 {  char* name = argv[1];
@@ -15,6 +16,9 @@ int main(int argc, char* argv[])
 
 	}
    copy(name);
+  watch(name);
+ 
+
 
   while (opt != -1)
    {
