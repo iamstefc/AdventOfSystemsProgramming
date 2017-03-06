@@ -31,10 +31,4 @@ int main(int argc, char* argv[])
       }
       opt = getopt(argc, argv, "md:t");
    }
-
-
-
-
-
-
 }
