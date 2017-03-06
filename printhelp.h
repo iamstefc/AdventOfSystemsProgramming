@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 void printhelp(char* name)
 {
 	printf("Usage: %s [ARG][OPTION] \n", name);
