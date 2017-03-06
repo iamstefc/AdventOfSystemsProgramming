@@ -16,7 +16,7 @@ void copy(char* name)
    {
       exit(EXIT_FAILURE);
    }
- 
+	
    target = fopen("temp", "w");
 
    if( target == NULL )
