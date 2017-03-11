@@ -3,13 +3,13 @@
 #include <string.h>
 
 #include<stdio.h>
-#include<process.h>
+//#include<process.h>
 
 void backup()//char *name)
 {
    FILE *fp1, *fp2;
    char a;
-   clrscr();
+   //clrscr();
  
    fp1 = fopen("test.txt", "r");
    if (fp1 == NULL) {
@@ -28,9 +28,9 @@ void backup()//char *name)
       a = fgetc(fp1);
       fputc(a, fp2);
    } while (a != EOF);
- 
-   fcloseall();
-   getch();
+   //return EXIT_SUCCESS;
+   //fcloseall();
+   //getch();
 
 
 	
