@@ -2,42 +2,40 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#include <fcntl.h> // for open
+#include <unistd.h> // for close
 
+// SOURCE: http://stackoverflow.com/questions/19472546/implicit-declaration-of-function-closes
 
-void copy(const char* name, char* file)
+void copy(const char* src_path, char* dst_path)
 {
-	//source: http://www.programmingsimplified.com/c-program-copy-file
-   char ch, source_file[20], target_file[20];
-   FILE *source, *target;
- 
-  
- 
-   source = fopen(name, "w");
- 
-   if( source == NULL )
-   {
-      
-      exit(EXIT_FAILURE);
-   }
- 
- 
- 
-   target = fopen(file, "w");
+	int src_fd, dst_fd, n, err;
+   unsigned char buffer[4096];
    
-   if( target == NULL )
-   {
-      fclose(source);
-      
-      exit(EXIT_FAILURE);
-   }
- 
-   while( ( ch = fgetc(source) ) != EOF )
-      fputc(ch, target);
- 
+
+    
+
+    src_fd = open(src_path, O_RDONLY);
+    dst_fd = open(dst_path, O_WRONLY | O_CREAT | O_TRUNC,0777);
    
- 
-   fclose(source);
-   fclose(target);
+
+    while (1) {
+        err = read(src_fd, buffer, 4096);
+        if (err == -1) {
+            printf("Error reading file.\n");
+            exit(1);
+        }
+        n = err;
+
+        if (n == 0) break;
+
+        err = write(dst_fd, buffer, n);
+        if (err == -1) {
+            printf("Error writing to file.\n");
+            perror("ERROR:");
+            exit(1);
+        }
+    }
  
    
 }

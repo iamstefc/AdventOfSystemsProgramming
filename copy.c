@@ -3,7 +3,6 @@
 #include "stdbool.h"
 #include "unistd.h"
 #include "printhelp.h"
-#include "watch.h"
 #include "myFileCopy.h"
 #include "sys/stat.h"
 #include "errno.h"
@@ -14,30 +13,31 @@
 
 int main(int argc, char* argv[])
 {  
-	char* source = "~/Backup";
-	const char* name = argv[1];
-	char* arg_d;
+  const char* name = argv[1];
+	char* source = "~/Backup",* revision = "_rev";
+  char*arg_d, *env_home,*backup, *current;
+  char str[80]="";
 	int opt = getopt(argc, argv, "mhd:t");
 	bool opt_m =false, opt_d = false, opt_t =false, opt_h =false;
-	ssize_t EVENT_SIZE = (sizeof (struct inotify_event));
-	ssize_t EVENT_BUF_LEN = (1024 * (EVENT_SIZE + 16));
+  int count = 0;
+	
 	
 	
 
 	if(argv[1] == NULL){
-		printf("Usage: %sEXECUTABLE\n",argv[0]);	//part 2: if no arguments provided
+		printf("Usage: %s EXECUTABLE\n",argv[0]);	//part 2: if no arguments provided
 		return 1;
 	}
     
    
-   struct stat file_stat;
-   if (stat(name, &file_stat) < 0){ 
-        printf("Error sourcing\n");					//if source file does not exist
-        return 1;
-    }
+  struct stat file_stat;
+  if (stat(name, &file_stat) < 0){ 
+      printf("Error sourcing\n");					   //if source file does not exist
+      return 1; 
+  }
 	
 	
-													//checks command line arguments
+													                   //checks command line arguments
 	while (opt != -1)
    {
       if (opt == 'm') {
@@ -58,131 +58,53 @@ int main(int argc, char* argv[])
    		
 
 
-
-	//backup();
-  //watch(name);
-
-char* home = getenv("HOME");
-char str[80]="";
-strcpy(str,home);
-strcat(str,"/backup");
-char* path = str;
+env_home = getenv("HOME");                  //gets home directory of any user
+strcpy(str,env_home);                   
+strcat(str,"/backup");                      
+backup = str;
 struct stat s;
 int err = stat(source,&s);
 
 if (opt_d){
-	err = stat(path,&s);
+	err = stat(backup,&s);
 	}
 
 if(-1 == err) {
 if(ENOENT == errno){ 
 	if(opt_d){ 
-	path = arg_d;}											//directory does not exist
-	mkdir(path, S_IRWXG | S_IRWXO | S_IRWXU);
-	printf("Backup Locations: %s\n",path);
-       
+	backup = arg_d;}											    //directory does not exist
+	mkdir(backup, S_IRWXG | S_IRWXO | S_IRWXU);
+	printf("Backup Locations: %s\n",backup);
+      
     } 
 }
 else{
 	printf("Directory Already Exists\n");
 }
 
-char n_copy[100];
-char* current = "_rev0";
-int count = 0;
+char str2[1000] = "";
 
-current = n_copy;
+strcpy(str2,name); 
+strcat(str2,revision);
+char buffer[100] = "";    
+sprintf(buffer,"%d", count);  
 
+// SOURCE: http://stackoverflow.com/questions/5242524/converting-int-to-string-in-c
+strcat(str2, buffer);
+current = str2;
+printf("BACKUP3 : %s\n", backup);
+printf("current: %s\n", current);
 
-strcpy(str,path);
-strcat(str,"/temp");
-path = str;
-
-char* temp = path;
-
-copy(name,temp);
-
-
-
-
-
-
-
-
-
-//INOTIFY ------------------------
-
-/*int length, i = 0;
-  int fd;
-  int wd;
-  char buffer[EVENT_BUF_LEN];
+char str3[1000] = "";
+strcpy(str3,backup);
+printf("%s\n", str3);                       //creating temp file in backup
+strcat(str3,"/temp");
+char* tempfile = str3;
 
  
-  fd = inotify_init();
-
-  
-  if ( fd < 0 ) {
-    perror( "inotify_init" );
-  }
-wd = inotify_add_watch( fd, name, IN_MODIFY| IN_DELETE );
-
-  /*read to determine the event change happens on “/tmp” directory. Actually this read blocks until the change event occurs*/ 
-
-  /*length = read( fd, buffer, EVENT_BUF_LEN ); 
-
-  /**if ( length < 0 ) {
-    perror( "read" );
-  }  
-
- /* /*actually read return the list of change events happens. Here, read the change event one by one and process it accordingly.*/
- /* while ( i < length ) {     
-  	
-  	struct inotify_event *event = ( struct inotify_event * ) &buffer[ i ];     
-  	if ( event->len ) {
-     
-        if ( event->mask & IN_MODIFY ) {
-          printf( " %s MODIFIED.\n", event->name );
-        }
-      
-      else if ( event->mask & IN_DELETE ) {
-        if ( event->mask & IN_ISDIR ) {
-          printf( "Directory %s deleted.\n", event->name );
-        }
-        
-      }
-    }
-    i += EVENT_SIZE + event->len;
-  }	*/
-
-	
-	
-					
-					/*strcpy(n_copy,"");
-					strcat(n_copy, name);
-					strcat(n_copy,"_rev");
-
-					printf("%d\n",count );
-					char m[999];
-					sprintf(m, "%d", count);
-					temp = m;
-					strcat(n_copy,temp);
-					current = n_copy;
-					copy(name,current);
-					count++;*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+printf("%s\n", current);
+copy(name,current);
+copy(name, tempfile);
 
 
 
